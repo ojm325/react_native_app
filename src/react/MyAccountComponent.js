@@ -18,36 +18,18 @@ export default class MyAccountComponent extends Component {
   constructor() {
     super();
     this.state = {
-      account: 'ojm325',
-      active: true
+      account: 'ojm325'
     };
-  },
-
-  onButtonPress() {
-    Alert.alert('Button has been pressed!');
-    this.setState({
-      active: false
-    });
   }
 
   render() {
+    var displayView = this.state.active 
     return (
-      {
-        this.state.active ?
-        <View style={styles.container}>
-          <Text style={styles.username}>
-            Welcome, {this.state.account}!
-          </Text>
-          <Button
-            onPress={this.onButtonPress}
-            title='Click This Button!'
-            color='#841584'
-            accessibilityLabel='Click this button that says Click This Button'
-          />
-        </View>
-        :
-        null
-      }
+      <View style={styles.container}>
+        <Text style={styles.username}>
+          Welcome, {this.state.account}!
+        </Text>
+      </View>
     );
   }
 }

@@ -9,17 +9,40 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Button,
+  Alert
 } from 'react-native';
 import MyAccountComponent from './src/react/MyAccountComponent'
 import MapViewComponent from './src/react/MapViewComponent'
 
 export default class react_native_app extends Component {
+  constructor() {
+    super();
+    this.state = {
+      displayView: true
+    };
+    this.onButtonPress = this.onButtonPress.bind(this);
+  }
+
+  onButtonPress() {
+     this.setState({
+       displayView: false
+     });
+  }
+
   render() {
+    var displayAccount = this.state.displayView ? <MyAccountComponent /> : null;
     return (
       <View style={styles.container}>
         <MapViewComponent />
-        <MyAccountComponent />
+        {displayAccount}
+        <Button
+          onPress={this.onButtonPress}
+          title='Click This Button!'
+          color='#841584'
+          accessibilityLabel='Click this button that says Click This Button'
+        />
       </View>
     );
   }
