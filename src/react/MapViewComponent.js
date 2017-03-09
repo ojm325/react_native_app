@@ -8,23 +8,53 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
-  View
+  View,
+  Text
 } from 'react-native';
 import MapView from 'react-native-maps';
 
 export default class MapViewComponent extends Component {
   constructor() {
     super();
+
+    this.state = {
+      latitude: 42.3601,
+      longitude: -71.0589,
+      error: null
+    }
   }
+
+  componentDidMount() {
+    this.watchID = navigator.geolocation.watchPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null
+        });
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
+    );
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  }
+
+  onRegionChange(region) {
+    this.setState({ region });
+  }
+
 
   render() {
     return (
       <MapView
         style={styles.map}
-
+        showsUserLocation={true}
         initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
+          latitude: this.state.latitude,
+          longitude: this.state.longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
